@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NodeTraversalStatusPattern.TraversalUtils\NodeTraversalStatusPattern.Traversal.csproj" />
     <ProjectReference Include="..\NodeTraversalStatusPattern\NodeTraversalStatusPattern.csproj" />
   </ItemGroup>
 

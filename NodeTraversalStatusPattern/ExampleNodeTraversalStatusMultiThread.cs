@@ -5,7 +5,6 @@
     /// </summary>
     public partial class ExampleNode
     {
-        [ThreadStatic]
         private static int _globalMultithreadedTraversalState;
 
         private int _nodeMultithreadedTraversalState = -1; //set to -1 to not be IsProcessed() by default

@@ -1,8 +1,11 @@
 ﻿namespace NodeTraversalStatusPattern
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// This class contains all logic and data related to his basic functionality
     /// </summary>
+    [DebuggerDisplay("[{X},{Y}]={Value}")]
     public partial class ExampleNode
     {
         public ExampleNode(int value, int x, int y)
