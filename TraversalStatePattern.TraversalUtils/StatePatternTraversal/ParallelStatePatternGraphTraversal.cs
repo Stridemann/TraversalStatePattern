@@ -1,15 +1,15 @@
-﻿namespace NodeTraversalStatusPattern.Traversal.StatusPatternGraphTraversal
-{
-    using System.Collections.Concurrent;
-    using System.ComponentModel;
-    using Utils;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel;
+using TraversalStatePattern.Utils;
 
-    public class ParallelStatusPatternGraphTraversal : IGraphTraversal
+namespace TraversalStatePattern.TraversalUtils.StatePatternTraversal
+{
+    public class ParallelStatePatternGraphTraversal
     {
         private readonly int _threads;
         private readonly NodeTraversalThreadContext _threadContext;
 
-        public ParallelStatusPatternGraphTraversal(int threads, NodeTraversalThreadContext threadContext)
+        public ParallelStatePatternGraphTraversal(int threads, NodeTraversalThreadContext threadContext)
         {
             _threads = threads;
             _threadContext = threadContext;

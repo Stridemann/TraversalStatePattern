@@ -1,13 +1,14 @@
-﻿namespace NodeTraversalStatusPattern.Traversal.StatusPatternGraphTraversal
-{
-    using System.Collections.Concurrent;
-    using System.ComponentModel;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 
-    public class MultithreadedStatusPatternGraphTraversal : IGraphTraversal
+namespace TraversalStatePattern.Traversal.DefaultGraphTraversal
+{
+    public class MultithreadedDictionaryGraphTraversal
     {
         private readonly int _threads;
+        private readonly ConcurrentDictionary<int, byte> _duplicatesDict = new ConcurrentDictionary<int, byte>();
 
-        public MultithreadedStatusPatternGraphTraversal(int threads)
+        public MultithreadedDictionaryGraphTraversal(int threads)
         {
             _threads = threads;
         }
@@ -16,15 +17,13 @@
 
         public void GraphTraversal(ExampleNode root, Action<ExampleNode> procedure)
         {
-            ExampleNode.NewTraversalMultithreaded(); //Start a new traversal. Now all nodes IsProcessed() will give False
-
             //Do multithreaded traversal
             var waitEvent = new CountdownEvent(_threads);
             var queue = new ConcurrentQueue<ExampleNode>();
 
             //process initial node
             procedure(root);
-            root.CheckSetProcessedMultithreaded();
+            _duplicatesDict[root.Id] = 0;
 
             foreach (var exampleNode in root.Children)
             {
@@ -39,11 +38,11 @@
                 {
                     while (queue.TryDequeue(out var recursionNode))
                     {
-                        if (recursionNode.CheckSetProcessedMultithreaded())
+                        if (!_duplicatesDict.TryAdd(recursionNode.Id, 0))
                         {
                             continue;
                         }
-
+                   
                         procedure(recursionNode);
 
                         foreach (var child in recursionNode.Children)

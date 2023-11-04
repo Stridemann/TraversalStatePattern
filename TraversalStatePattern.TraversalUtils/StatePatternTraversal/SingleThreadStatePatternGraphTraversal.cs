@@ -1,6 +1,6 @@
-﻿namespace NodeTraversalStatusPattern.Traversal.StatusPatternGraphTraversal
+﻿namespace TraversalStatePattern.TraversalUtils.StatePatternTraversal
 {
-    public class SingleThreadStatusPatternGraphTraversal : IGraphTraversal
+    public class SingleThreadStatePatternGraphTraversal
     {
         public void GraphTraversal(ExampleNode root, Action<ExampleNode> procedure)
         {
@@ -9,25 +9,25 @@
 
             //Using Queue for BFS (or Stack can be used for DFS traversal)
             var queue = new Queue<ExampleNode>();
+
+            //process start node
             queue.Enqueue(root);
-            root.MarkProcessed();
+            root.CheckSetProcessed();
 
             while (queue.TryDequeue(out var node))
             {
                 foreach (var resultChild in node.Children)
                 {
                     //Use status pattern
-                    if (resultChild.IsProcessed())
+                    if (resultChild.CheckSetProcessed())
                     {
                         continue;
                     }
 
-                    resultChild.MarkProcessed();
-
                     //Do some work
                     procedure(resultChild);
 
-                    //process node childen
+                    //process node children
                     queue.Enqueue(resultChild);
                 }
             }

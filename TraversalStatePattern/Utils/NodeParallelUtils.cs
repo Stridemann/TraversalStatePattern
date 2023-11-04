@@ -1,7 +1,5 @@
-﻿namespace NodeTraversalStatusPattern.Utils
+﻿namespace TraversalStatePattern.Utils
 {
-    using System.Diagnostics;
-
     public static class NodeParallelUtils
     {
         private static ulong _threadCompletionStates;

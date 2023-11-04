@@ -1,10 +1,10 @@
-﻿namespace NodeTraversalStatusPattern.UnitTests
-{
-    using System.Reflection;
-    using NodeTraversalStatusPattern.Utils;
-    using Shouldly;
-    using Xunit;
+﻿using System.Reflection;
+using Shouldly;
+using TraversalStatePattern.Utils;
+using Xunit;
 
+namespace TraversalStatePattern.UnitTests
+{
     public class NodeParallelUtilsUnitTest
     {
         public NodeParallelUtilsUnitTest()

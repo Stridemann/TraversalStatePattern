@@ -1,4 +1,4 @@
-﻿namespace NodeTraversalStatusPattern
+﻿namespace TraversalStatePattern
 {
     /// <summary>
     /// This class contains all pattern members to implement NodeTraversalStatusPattern
@@ -6,7 +6,6 @@
     public partial class ExampleNode
     {
         private static int _globalMultithreadedTraversalState;
-
         private int _nodeMultithreadedTraversalState = -1; //set to -1 to not be IsProcessed() by default
 
         public static void NewTraversalMultithreaded()

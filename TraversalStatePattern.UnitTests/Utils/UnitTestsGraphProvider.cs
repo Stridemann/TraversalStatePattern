@@ -1,4 +1,4 @@
-﻿namespace NodeTraversalStatusPattern.UnitTests.Utils
+﻿namespace TraversalStatePattern.UnitTests.Utils
 {
     public static class UnitTestsGraphProvider
     {
@@ -15,6 +15,7 @@
             }
 
             var gridGraph = new ExampleNode[height][];
+            var nodeIdCounter = 0;
 
             //create grid nodes
             for (int y = 0; y < height; y++)
@@ -25,26 +26,29 @@
                 for (int x = 0; x < width; x++)
                 {
                     var nodeValue = x + y;
-                    rowNodes[x] = new ExampleNode(nodeValue, x, y);
+                    rowNodes[x] = new ExampleNode(nodeValue, x, y, nodeIdCounter++);
                 }
             }
 
             //Link bottom node all nodes to the right
-            for (int y = 0; y < height - 1; y++)
+            for (int y = 0; y < height; y++)
             {
                 var rowNodes = gridGraph[y];
-                var nextRowNodes = gridGraph[y + 1];
 
                 for (int x = 0; x < width - 1; x++)
                 {
                     var node = rowNodes[x];
 
-                    for (int x2 = x + 1; x2 < width - 1; x2++)
+                    for (int x2 = x + 1; x2 < width; x2++)
                     {
                         node.AddChild(rowNodes[x2]);
                     }
 
-                    node.AddChild(nextRowNodes[x]);
+                    if (y < height - 1)
+                    {
+                        var nextRowNodes = gridGraph[y + 1];
+                        node.AddChild(nextRowNodes[x]);
+                    }
                 }
             }
 

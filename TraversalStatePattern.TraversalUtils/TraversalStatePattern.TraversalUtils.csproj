@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.9" />
-    <PackageReference Include="xunit" Version="2.5.2" />
+    <Folder Include="DefaultGraphTraversal\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TraversalStatePattern\TraversalStatePattern.csproj" />
   </ItemGroup>
 
 </Project>

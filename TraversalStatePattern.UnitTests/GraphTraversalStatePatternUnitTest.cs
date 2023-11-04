@@ -1,19 +1,19 @@
-﻿namespace NodeTraversalStatusPattern.UnitTests
-{
-    using System.Reflection;
-    using NodeTraversalStatusPattern.Utils;
-    using Shouldly;
-    using Traversal;
-    using Traversal.StatusPatternGraphTraversal;
-    using Utils;
-    using Xunit;
+﻿using System.Reflection;
+using Shouldly;
+using TraversalStatePattern.Traversal.DefaultGraphTraversal;
+using TraversalStatePattern.TraversalUtils.StatePatternTraversal;
+using TraversalStatePattern.UnitTests.Utils;
+using TraversalStatePattern.Utils;
+using Xunit;
 
-    public class GraphTraversalUnitTest
+namespace TraversalStatePattern.UnitTests
+{
+    public class GraphTraversalStatePatternUnitTest
     {
         private static FieldInfo? _threadCompletionStatesFieldInfo;
         private static FieldInfo? _threadTraversalStatesFieldInfo;
 
-        public GraphTraversalUnitTest()
+        public GraphTraversalStatePatternUnitTest()
         {
             _threadCompletionStatesFieldInfo = typeof(NodeParallelUtils).GetField(
                 "_threadCompletionStates",
@@ -34,7 +34,7 @@
 
             //Generate test graph
             var graphRootNode = UnitTestsGraphProvider.GenerateGridGraph(width, height);
-            var ssGraphTraversal = new SingleThreadStatusPatternGraphTraversal();
+            var ssGraphTraversal = new SingleThreadStatePatternGraphTraversal();
 
             const int STEPS = 3;
 
@@ -51,7 +51,7 @@
         [Theory]
         [InlineData(10, 10, 3)]
         [InlineData(100, 100, 10)]
-        [InlineData(300, 300, 40)]
+        [InlineData(400, 400, 40)]
         public void GraphTraversal_MultiThread_AllNodesProcessedOnce(int width, int height, int threads)
         {
             ClearStates();
@@ -61,11 +61,35 @@
 
             const int STEPS = 3;
 
-            var multithreadedTraversal = new MultithreadedStatusPatternGraphTraversal(threads);
+            var multithreadedTraversal = new MultithreadedStatePatternGraphTraversal();
 
             //Do traversal (few times for a test, just to make sure everything is ok with states)
             for (var i = 0; i < STEPS; i++)
             {
+                multithreadedTraversal.GraphTraversal(graphRootNode, node => node.IncrementValue(), threads, width * height);
+            }
+
+            //Validate nodes
+            ValidateGraph(graphRootNode, STEPS);
+        }
+
+        [Theory]
+        [InlineData(10, 10, 3)]
+        [InlineData(100, 100, 10)]
+        [InlineData(300, 300, 40)]
+        public void GraphTraversal_MultiThreadDictionary_AllNodesProcessedOnce(int width, int height, int threads)
+        {
+            ClearStates();
+
+            //Generate test graph
+            var graphRootNode = UnitTestsGraphProvider.GenerateGridGraph(width, height);
+
+            const int STEPS = 3;
+
+            //Do traversal (few times for a test, just to make sure everything is ok with states)
+            for (var i = 0; i < STEPS; i++)
+            {
+                var multithreadedTraversal = new MultithreadedDictionaryGraphTraversal(threads);
                 multithreadedTraversal.GraphTraversal(graphRootNode, node => node.IncrementValue());
             }
 
@@ -105,7 +129,7 @@
                 tasks[i] = Task.Run(
                     () =>
                     {
-                        var parallelTraversal = new ParallelStatusPatternGraphTraversal(threads, threadContext);
+                        var parallelTraversal = new ParallelStatePatternGraphTraversal(threads, threadContext);
                         parallelTraversal.GraphTraversal(graphRootNode, node => node.IncrementValue());
                         threadContext.Complete();
                     });
@@ -128,7 +152,7 @@
 
         private static void ValidateGraph(ExampleNode graphRootNode, int incremented)
         {
-            var ssGraphTraversal = new SingleThreadStatusPatternGraphTraversal();
+            var ssGraphTraversal = new SingleThreadStatePatternGraphTraversal();
             ssGraphTraversal.GraphTraversal(graphRootNode, node => node.Value.ShouldBe(node.X + node.Y + incremented, $"Node:[{node.X},{node.Y}]"));
         }
     }

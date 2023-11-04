@@ -1,0 +1,52 @@
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Loggers;
+using BenchmarkDotNet.Running;
+using TraversalStatePattern.Benchmarks.TraversalBenchmarks;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace TraversalStatePattern.Benchmarks
+{
+    [MemoryDiagnoser]
+    [InProcess]
+    public class SingleThreadTraversalBenchmarkRunner
+    {
+        public SingleThreadTraversalBenchmarkRunner(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
+        private readonly ITestOutputHelper _output;
+
+        [Fact]
+        public void SingleThreadHashSetTraversalBenchmark()
+        {
+            var logger = new AccumulationLogger();
+
+            var config = ManualConfig.Create(DefaultConfig.Instance)
+                                     .AddLogger(logger)
+                                     .WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
+            BenchmarkRunner.Run<SingleThreadTraversalBenchmark>(config);
+
+            // write benchmark summary
+            _output.WriteLine(logger.GetLog());
+        }
+
+        [Fact]
+        public void SingleThreadStatusPatternTraversalBenchmark()
+        {
+            var logger = new AccumulationLogger();
+
+            var config = ManualConfig.Create(DefaultConfig.Instance)
+                                     .AddLogger(logger)
+                                     .WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
+            BenchmarkRunner.Run<SingleThreadStatusPatternTraversalBenchmark>(config);
+
+            // write benchmark summary
+            _output.WriteLine(logger.GetLog());
+        }
+    }
+}

@@ -1,19 +1,26 @@
-﻿namespace NodeTraversalStatusPattern
-{
-    using System.Diagnostics;
+﻿using System.Diagnostics;
 
+namespace TraversalStatePattern
+{
     /// <summary>
     /// This class contains all logic and data related to his basic functionality
     /// </summary>
     [DebuggerDisplay("[{X},{Y}]={Value}")]
     public partial class ExampleNode
     {
-        public ExampleNode(int value, int x, int y)
+        public ExampleNode(
+            int value,
+            int x,
+            int y,
+            int id)
         {
             Value = value;
             X = x;
             Y = y;
+            Id = id;
         }
+
+        public int Id { get; }
 
         public int Value
         {

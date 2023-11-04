@@ -1,7 +1,7 @@
-﻿namespace NodeTraversalStatusPattern
-{
-    using Utils;
+﻿using TraversalStatePattern.Utils;
 
+namespace TraversalStatePattern
+{
     /// <summary>
     /// This class contains all pattern members to implement NodeTraversalStatusPattern
     /// </summary>
