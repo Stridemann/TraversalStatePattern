@@ -181,6 +181,8 @@ public void GraphTraversal(
 ```
 
 ## Parallel multithreaded usage
+(under Parallel multithreaded means doing multiple concurrent iterations over the same structure, where each iteration runs using multithreading)
+
 The repository has a parallel, multithreaded example of how to use it, but the benchmarks show it's only 5-10% faster than using ConcurrentDictionary.
 [ConcurrentDictionary](TraversalStatePattern.TraversalUtils/DefaultGraphTraversal/MultithreadedDictionaryGraphTraversal.cs)
 
